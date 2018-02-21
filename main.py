@@ -1,5 +1,4 @@
-import re
-# Definition of RailroadGraph class with an empty dictionary self.graph
+# Definition of RailroadGraph class with an empty dictionary self.all_trips
 
 class RailroadGraph:
     
@@ -146,17 +145,22 @@ class RailroadGraph:
         # replacing ", " with no space and splitting the merged string into 
         # strings(routes, e.g. 'AB') and numbers(distances, e.g. '5')
         # final list looks like ['AB', '5', 'BC', '4', ...]
-        list_nodes_distance = string_graph.replace(", ", "")
-        list_keys_distance = re.split('(\d+)', list_nodes_distance)
+        
+        string = string_graph.split(", ")
+        list_keys_distance = []
+        for i in range(len(string)):
+            list_keys_distance.append(string[i][0] + string[i][1])
+            list_keys_distance.append(string[i][2:])
+    
 
         list_keys = []
         list_distance = []
         # for direct routes there is always only one stop
         stops = 1
         # filling list_keys with all direct routes, e.g. ['AB', 'BC', ...]
-        list_keys = [list_keys_distance[i] for i in range(len(list_keys_distance)-1) if i%2==0]
+        list_keys = [list_keys_distance[i] for i in range(len(list_keys_distance)) if i % 2==0]
         # filling list_distances with integer values of distances, e.g. [5, 4, ...]        
-        list_distance = [int(list_keys_distance[i]) for i in range(len(list_keys_distance)-1) if i%2 == 1]
+        list_distance = [int(list_keys_distance[i]) for i in range(len(list_keys_distance)) if i % 2 == 1]
 
         # creating initial dictionary with direct routes, given in the graph, 
         # where the key is the rote and the value is the list [distance, stops]

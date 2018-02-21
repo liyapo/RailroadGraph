@@ -1,3 +1,6 @@
+# To run test.py for railroad graph use:
+# python -m unittest test.TestRailroad
+
 import unittest
 from main import * 
 
