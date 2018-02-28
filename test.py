@@ -12,9 +12,8 @@ class TestRailroad(unittest.TestCase):
         # which are included in all_trips dictionary
 
         # max num of stops = 16 when count = 4
-        count = 4
         self.TestGraph = RailroadGraph()
-        self.TestGraph.build("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7", count)
+        self.TestGraph.build("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7")
         
     def test_calculate_distance(self):
         self.assertEqual(self.TestGraph.calculate_distance("A-B-C"), 9.0)

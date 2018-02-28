@@ -9,8 +9,8 @@ class RailroadGraph:
 
     # transforming string_graph ("AB5, BC4, ...") into dictionary with all possible routes
     # dictionary looks like {'AB':[5, 1], 'BC':[4, 1], ..., 'ADEB': [14, 3], 'CEBC': [9, 3], ...}
-    def build (self, string_graph, count):
-        self.all_trips = self.transform_graph_dictionary(count, string_graph, self.all_trips)
+    def build (self, string_graph):
+        self.all_trips = self.transform_graph_dictionary(string_graph, self.all_trips)
 
         
 
@@ -130,14 +130,11 @@ class RailroadGraph:
     
 #--------------------------------------------------------------------------------------------------------
 
-# Transforming initial graph into a dictionary with all possible trips, the maximum 
-# number of maximum stops possible of the railroad is controlled by vaiable 'count', 
-# (number of maximum stops possible) = 2^(count)
-# 'count' represents the number of times the recursive function is called to fill in the dictionary
+# Transforming initial graph into a dictionary with all possible trips 
 
 #--------------------------------------------------------------------------------------------------------
 
-    def transform_graph_dictionary(self, count, string_graph, trips):
+    def transform_graph_dictionary(self, string_graph, trips):
         
         # putting all direct trips from string_graph in dictionary trips
         # with route as a key and list of values [distance, number of stops]
@@ -170,7 +167,7 @@ class RailroadGraph:
         # making a dictionary of all possible trips as a key and 
         # values' list [distance, number of stops]
 
-        return self.create_all_trips(count, trips)
+        return self.create_all_trips(trips)
 
 
     # adding new trips by merging the existing routes
@@ -194,23 +191,32 @@ class RailroadGraph:
         merged_iter_dict.update(trips_iter)
         return merged_iter_dict
 
-    # recursive function to fill in the dictionary with all possible trips, the maximum 
-    # number of stops is equal to 2^count, e.g. if count=3, number of stops maximal = 8
+    # recursive function to fill in the dictionary with all possible trips
     # this function does not save the created dictionary, it is done in create_all_trips
     def recur(self, count, trips):
-
-        if count == 0:
-            pass
-        else:
+        
+        if (count > -1):
             trips_recur = trips
             trips.update(self.fun_iter(trips_recur))
             return self.recur(count - 1, trips)
+        else: 
+            pass
+        
 
     # function to save the dictionary created during the recursion
-    def create_all_trips(self, count, trips):
+    # 'count' represents the number of times the recursive function is called to fill in the dictionary
 
-        self.all_trips = trips
-        self.recur(count, self.all_trips)
+    def create_all_trips(self, trips):
+        max_number_stops_tot = 11
+        count = 4
+        cal_all_trips = trips
+        self.recur(count, cal_all_trips)
+        for key in cal_all_trips:
+            if len(key) <= max_number_stops_tot:
+                self.all_trips[key] = cal_all_trips[key]
+            else:
+                pass
+
         return self.all_trips
         
 
